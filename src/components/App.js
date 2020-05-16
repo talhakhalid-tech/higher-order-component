@@ -3,6 +3,7 @@ import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 import Main from './Main'
 import Chatbar from './Chatbar'
+import Snippet from './Snippet'
 import '../styling/style.css'
 
 function App() {
@@ -13,7 +14,8 @@ function App() {
           <div id="container">
                 <div class="row">
                   <Sidebar/>
-                  <Main/>
+                  {/* <Main/> */}
+                  <Snippet/>
                   <Chatbar/>
                 </div>
           </div>
