@@ -2,18 +2,19 @@ import React from 'react'
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 import Chatbar from './Chatbar'
-import Filemanager from './Filemanager'
+import Snippets from './Snippets'
 
-class Main extends React.Component{
+class SnippetRoute extends React.Component{
+    
     render(){
         return(
-            <div className="main-container">
+            <div className="main-container" onClick={this.onScreenClick}>
             <Navbar/>
             <main>
                 <div id="container">
                         <div className="row">
                         <Sidebar/>
-                        <Filemanager/>
+                        <Snippets/>
                         <Chatbar/>
                         </div>
                 </div>
@@ -23,4 +24,4 @@ class Main extends React.Component{
     }
 }
 
-export default Main
+export default SnippetRoute

@@ -1,27 +1,22 @@
 import React from 'react';
-import Navbar from './Navbar'
-import Sidebar from './Sidebar'
+import {Router,Route,Switch} from 'react-router-dom'
+import history from '../history.js'
 import Main from './Main'
-import Chatbar from './Chatbar'
-import Snippet from './Snippet'
+import SnippetRoute from './SnippetRoute'
 import '../styling/style.css'
 
 function App() {
   return (
-      <div className="main-container">
-      <Navbar/>
-      <main>
-          <div id="container">
-                <div class="row">
-                  <Sidebar/>
-                  {/* <Main/> */}
-                  <Snippet/>
-                  <Chatbar/>
+      <div>
+            <Router history={history}>
+                <div>
+                    <Switch>
+                        <Route path='/' exact component={Main}/>
+                        <Route path='/snippets' exact component={SnippetRoute}/>
+                    </Switch>
                 </div>
-          </div>
-        </main>
+            </Router>
       </div>
-
   );
 }
 
