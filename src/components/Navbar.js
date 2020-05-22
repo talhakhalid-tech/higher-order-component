@@ -4,6 +4,12 @@ import storage from '../resources/storage.svg'
 import user from '../resources/user.svg'
 
 class Navbar extends React.Component{
+
+
+    onValueChange=(event)=>{
+        this.props.onSearch(event.target.value)
+    }
+
     render(){
         return(
                 <header>
@@ -15,7 +21,7 @@ class Navbar extends React.Component{
 
                             <div className="col-xl-6 col-lg-6 col-md-6">
                                 <div className="search">
-                                    <input className="search-bar" type="text" name="search" placeholder="Search records..."/>
+                                    <input className="search-bar" onChange={this.onValueChange} type="text" name="search" placeholder="Search records..." autoComplete='off'/>
                                 </div>
                             </div>
 

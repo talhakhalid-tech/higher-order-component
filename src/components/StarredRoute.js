@@ -2,25 +2,19 @@ import React from 'react'
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 import Chatbar from './Chatbar'
-import Filemanager from './Filemanager'
+import Starred from './Starred'
 
-class Main extends React.Component{
-
-    state={term: ''}
-
-    onChangeSearch=(term)=>{
-        this.setState({term:term})
-    }
-
+class StarredRoute extends React.Component{
+    
     render(){
         return(
             <div className="main-container">
-            <Navbar onSearch={this.onChangeSearch}/>
+            <Navbar/>
             <main>
                 <div id="container">
                         <div className="row">
-                        <Sidebar active='main'/>
-                        <Filemanager search={this.state.term}/>
+                        <Sidebar active='starred'/>
+                        <Starred/>
                         <Chatbar/>
                         </div>
                 </div>
@@ -30,4 +24,4 @@ class Main extends React.Component{
     }
 }
 
-export default Main
+export default StarredRoute

@@ -1,9 +1,12 @@
 import React from 'react'
 import history from '../history.js'
+import moment from 'moment'
+import _ from 'lodash'
 import downloadBlack from '../resources/download-black.svg'
 import shareBlack from '../resources/share-black.svg'
 import binBlack from '../resources/bin-black.svg'
 import folder from '../resources/folder.svg'
+import Modal from './ModalAddFolder'
 
 
 class Filemanager extends React.Component{
@@ -11,18 +14,26 @@ class Filemanager extends React.Component{
     constructor(props){
         super(props)
         this.FileRef=[]
-        this.cardsList = []
-        this.cards=[{name: 'first',date:'1-January-2020'},
-                    {name: 'second',date:'1-February-2020'},
-                    {name: 'third',date:'1-March-2020'},
-                    {name: 'forth',date:'1-April-2020'},
-                    {name: 'fifth',date:'1-May-2020'}]
+        this.cardsList=[]
+        this.newcards =[]
+        this.cards=[{name: 'first',date:'01-January-2020'},
+                    {name: 'second',date:'01-February-2020'},
+                    {name: 'third',date:'01-March-2020'},
+                    {name: 'forth',date:'01-April-2020'},
+                    {name: 'fifth',date:'01-May-2020'}]
         for(let i =0 ; i<this.cards.length;i++){
             this.FileRef[i] = React.createRef()
         }
         this.myDIVRef = React.createRef()
-        this.state={toggleCheck: false,selectButton: 'Select'}
+        this.state={toggleCheck: false,selectButton: 'Select',totalCards: this.cards.length,sorted:false}
         this.count = 0
+    }
+
+    componentWillUpdate=()=>{
+        this.cardsList=[]
+        for(let i =0 ; i<this.cards.length;i++){
+            this.FileRef[i] = React.createRef()
+        }
     }
 
     onClickCheckbox = (event) =>{
@@ -50,7 +61,7 @@ class Filemanager extends React.Component{
                         {/* <!-- <div className="card"> --> */}
                         <ul className="flex">
                                 <li className="folder"><img src={folder} alt=""  onClick={this.onCardClick}/></li>
-                                <li className="date" onClick={this.onCardClick}>{this.cards[i*4+j].date} <br/> <span className="folder-name" >{this.cards[i*4+j].name}</span></li>
+                                <li className="date" onClick={this.onCardClick}>{this.newcards[i*4+j].date} <br/> <span className="folder-name" >{this.newcards[i*4+j].name}</span></li>
                             <div className="container-checkbox-more"  ref={this.FileRef[i*4+j]}  id="myMoreDIV">
                                 <li className="snippet">
                                     <label className="container-checkbox">
@@ -70,21 +81,22 @@ class Filemanager extends React.Component{
     }
 
     renderCards(){
-        let row = Math.ceil(this.cards.length/4)
+        this.newcards = this.cards.filter(card => {
+            return card.name.includes(this.props.search)
+        })
+        let row = Math.ceil(this.newcards.length/4)
         for(let i = 0;i<row;i++){
             let col
-            if((this.cards.length-(i*4)) >= 4){
+            if((this.newcards.length-(i*4)) >= 4){
                 col = 4
             }else{
-                col = this.cards.length-(i*4)
+                col = this.newcards.length-(i*4)
             }
-            console.log(col)
             this.cardsList.push(<div key={i}  className="section-main">
                         {this.sectionRender(i,col)}
                         </div>)
-            this.cardsList.push(<br key={i+4}/>)
+            this.cardsList.push(<br key={i+row+1}/>)
         }
-        console.log(this.cardsList)
         return this.cardsList
     }
 
@@ -100,6 +112,21 @@ class Filemanager extends React.Component{
             }
             this.setState({toggleCheck: false,selectButton:'Select'})
         }
+    }
+
+    onAddClick=(term)=>{
+        var date = new Date();
+        var currentTime = date.getTime();
+        this.cards.push({name: term,date:moment(currentTime).format('DD-MMMM-YYYY')})
+        this.setState({totalCards: this.cards.length})
+    }
+
+    sortByDate=()=>{
+        // this.cards = _.orderBy(this.cards, 'date',['desc'])
+            this.cards = this.cards.sort(function (a, b) {
+              return moment(b['date']) - moment(a['date'])
+            });
+        this.setState({sorted:true})
     }
 
     render(){
@@ -121,13 +148,13 @@ class Filemanager extends React.Component{
                                     </div>
 
                                     <button className="btn-more" onClick={this.checkFun} >{this.state.selectButton}</button>
-                                    <button className="btn-date">By Date</button>
-                                    <button className="btn-add">Add</button>
+                                    <button className="btn-date" onClick={this.sortByDate}>By Date</button>
+                                    {/* <button className="btn-add" onClick={this.addFolder}>Add</button> */}
+                                    <Modal  returnValue={this.onAddClick}/>
                                 </div>
                             </div>
                             
                             <hr className="hr-line"/>
-    
                             {this.renderCards()}
                         </div>
             </div>

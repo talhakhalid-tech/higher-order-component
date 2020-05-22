@@ -2,7 +2,7 @@ import React from "react";
 import user from "../resources/user.svg";
 import leftArrow from "../resources/left-arrow.svg";
 import Spinner from "./Spinner/Spinner";
-import firebase from "./firebase";
+import firebase from "../firebase/firebase";
 
 class Chatbar extends React.Component {
   state = {
@@ -180,7 +180,7 @@ class Chatbar extends React.Component {
 
                 {/* <!-- <textarea placeholder="Type message.." name="msg" required></textarea> --> */}
 
-                <div class="chat-btn-div">
+                <div className="chat-btn-div">
                   <form
                     onSubmit={this.submitFeedbackHandler}
                     style={{ display: "flex", flexDirection: "row" }}
@@ -193,8 +193,8 @@ class Chatbar extends React.Component {
                       value={this.state.feedbackMessage}
                     ></textarea>{" "}
                     {/* <!-- <button type="cancel" class="btn-cancel">Cancel</button> --> */}
-                    <button type="submit" class="btn-submit">
-                      <img class="btn-send-icon" src={leftArrow} alt="" />
+                    <button type="submit" className="btn-submit">
+                      <img className="btn-send-icon" src={leftArrow} alt="" />
                     </button>
                   </form>
                 </div>
